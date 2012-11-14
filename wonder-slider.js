@@ -1,5 +1,6 @@
 /* 
   Name: Wonder Slider
+  Version: 0.6
   Description: A full screen slider with automatic image positioning.
   Tested: FF 16(Windows), Chrome 22(Windows), Opera 12(Windows), Internet Explorer 9(Windows)
   Features: Images, Youtube and Vimeo videos, controls and progress bar. Can change images on the fly.
@@ -23,6 +24,8 @@ jQuery.wonderSlider = function(images , options) {
       'speed'   : 400,  // How fast should it disappear
       'preload' : true, // Attempt to preload images?
       'autoplay': true, // Start by itself, or when it's triggered
+	  'buildHTML': true, // build html from objects or read an existing one // TODO: Not yet implemented
+	  'forceStopMedia': true,// if true, when a slide is changed the iframe will be reset with a new request so the videos will stop.
       'progressBar' : true, // Show progress bar ?
       'progressBarColor' : '#000', // Progress Bar Color
       'color'   : '#000', // The color of controls
@@ -47,6 +50,26 @@ jQuery.wonderSlider = function(images , options) {
       items : "",
       errors : true // developers option
    };
+   
+   
+    WSI.forceStopMedia = function ()
+	{
+		if (settings.forceStopMedia == true)
+		{
+			jQuery('iframe').each(function() {
+				var src = jQuery(this).attr('src');
+				if (/youtube/.test(src) || /vimeo/.test(src)) // don't do useless requests
+				{
+					jQuery(this).attr('src' , src );
+				}
+			});
+
+			jQuery('audio').each(function() {
+				jQuery(this).get(0).pause();
+			});
+	
+		}
+	};
 
     WSI.getVideoID = function(string, video)
     {
@@ -284,7 +307,8 @@ jQuery.wonderSlider = function(images , options) {
 
    WSI.switchSlide = function(to)
    {
-
+	  
+	   WSI.forceStopMedia();
        try {
           settings.onBeforeChange.call(WSI);
        } catch(ex) {};
