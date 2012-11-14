@@ -2,6 +2,7 @@ WonderSlider
 ============
 
 A full screen slider with automatic image positioning. <br />
+Version: 0.5 <br />
 Tested: FF 16(Windows), Chrome 22(Windows), Opera 12(Windows), Internet Explorer 9(Windows) <br />
 Features: Images, Youtube and Vimeo videos, controls and progress bar. Can change images on the fly. <br />
 TODO: Add thumbnails, slide and random effects <br />
